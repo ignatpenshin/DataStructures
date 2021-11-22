@@ -8,8 +8,6 @@ struct Node
     Node* link;
 };
 
-void Print(Node*);
-
 Node* header = NULL;
 
 int main() 
@@ -17,10 +15,18 @@ int main()
     /*
     { = 123; } = 125; [ = 91; ] = 93; ( = 40; ) = 41;
     */
-    char x[9] = "{()[](}";
+    char x[11] = "{()[]()}[]";
     char *ptr = x;
-    for (int i = 0; i < sizeof(x); i++)
+    for (int i = 0; i < sizeof(x)-1; i++)
     {
+        Node *tempo = header;
+        while (tempo != NULL)
+        {
+            cout << tempo->Value << " ";
+            tempo = tempo->link;
+        }
+        cout << "\n";
+
         if ( int(*(ptr + i)) == 123 || int(*(ptr + i)) == 91 || int(*(ptr + i)) == 40)
         {
             Node *temp = (Node*)malloc(sizeof(Node));
@@ -49,20 +55,12 @@ int main()
                 header = header->link;
                 free(temp_1);
             }
-            if (header != NULL && int(*(ptr + i)) != header->Value)
+            else if ((header != NULL && int(*(ptr + i)) != header->Value) || header == NULL)
             {
                 cout << "Chain is broken!! Exit.";
                 exit(1);
             }
-
         }
-        Node *tempo = header;
-        while (tempo != NULL)
-        {
-            cout << tempo->Value << " ";
-            tempo = tempo->link;
-        }
-        cout << "\n";
     }
 
     Node *temp_2 = header;
